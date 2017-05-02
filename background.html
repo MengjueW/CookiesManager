@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+		<link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="./css/jquery-ui.css">
+    <link rel="stylesheet" href="./css/style.css">
+	</head>
+	<body>
+		<script src="./js/manager.js"></script>
+		<script src="./lib/jquery-1.12.4.js"></script>
+    <script src="./lib/jquery.dataTables.min.js"></script>
+    <script src="./lib/dataTables.jqueryui.min.js"></script>
+    <div id="pagewrap">
+    	<header>
+    		<h1>Welcome to Manage Your Cookies</h1>
+    	</header>
+
+      <section id="summary">
+        <h3>Summary of your cookies status</h3>
+        You have <span id="total_count"></span> cookies in your browser.<br />
+        Those cookies are from <span id="domain_count"></span> cookie domains.<br />
+        Those cookies have <span id="name_count"></span> different cookie names.<br />
+        <br />
+
+        <button id="clean">
+					Clear Filter
+				</button>
+        <table id="your_cookies_list" class="display" width="100%"></table>
+      </section>
+
+    	<section id="content">
+    		<h2>1st Content Area</h2>
+    		<p>This page demonstrates a 3 column responsive layout, complete with responsive images and jquery slideshow.</p>
+    	</section>
+
+    	<section id="middle">
+    		<h2>Delete Cookies Your Don't Like</h2>
+        <div>
+          <br />
+          Domain:&nbsp
+          <input id="domain_input" type="text">&nbsp
+          <button id="domain_button">
+            OK
+          </button>
+          <br />
+          <br />
+          Name:&nbsp&nbsp&nbsp&nbsp
+          <input id="name_input" type="text">&nbsp
+          <button id="name_button">
+            OK
+          </button>
+          <br />
+          <br />
+          Domain & Name:&nbsp&nbsp&nbsp&nbsp<br />
+          Domain:&nbsp
+          <input id="domain_name_input1" type="text">&nbsp
+          Name:&nbsp&nbsp&nbsp&nbsp
+          <input id="domain_name_input2" type="text">&nbsp
+          <button id="domain_name_button">
+            OK
+          </button>
+        </div>
+    	</section>
+
+    	<aside id="sidebar">
+    		<h2>3rd Content Area</h2>
+    		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+    		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+    		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+    	</aside>
+
+    	<footer>
+    		<h4>Footer</h4>
+    		<p>Footer text</p>
+    	</footer>
+
+    </div>
+	</body>
+</html>
