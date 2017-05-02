@@ -23,21 +23,29 @@
         Those cookies are from <span id="domain_count"></span> cookie domains.<br />
         Those cookies have <span id="name_count"></span> different cookie names.<br />
         <br />
-
-        <button id="clean">
-					Clear Filter
-				</button>
         <table id="your_cookies_list" class="display" width="100%"></table>
       </section>
 
     	<section id="content">
-    		<h2>1st Content Area</h2>
-    		<p>This page demonstrates a 3 column responsive layout, complete with responsive images and jquery slideshow.</p>
+    		<h2>Our Cookies BlackList</h2>
+				<div>
+					<br />
+	    		<p>( Here is the cookies blacklist we recommend you to delete. )</p>
+					<br />
+					You have <span id="blacklist_total_count"></span> cookies in your browser we recommend you to delete.<br /><br />
+					<ul>
+						<li>You have <span id="blacklist_trackers_count"></span> cookies in your browser that from web trackers.</li>
+						<li>You have <span id="blacklist_ads_count"></span> cookies in your browser that use for advertisement with 'ads.' in domain.</li>
+						<li>You have <span id="blacklist_google_count"></span> cookies in your browser are used by Google Ads and Analytics.</li>
+					</ul>
+				</div>
     	</section>
 
     	<section id="middle">
     		<h2>Delete Cookies Your Don't Like</h2>
         <div>
+					<br />
+					<p>( Please use domain as 'example.com'.<br /> No need to keep '.' at begin. )</p>
           <br />
           Domain:&nbsp
           <input id="domain_input" type="text">&nbsp
@@ -61,11 +69,15 @@
           <button id="domain_name_button">
             OK
           </button>
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
     	</section>
 
     	<aside id="sidebar">
-    		<h2>3rd Content Area</h2>
+    		<h2>Create Your Own Blacklist</h2>
     		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
     		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
     		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>

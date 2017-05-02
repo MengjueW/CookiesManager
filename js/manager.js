@@ -1,8 +1,21 @@
 var domain_dic = {};
 var name_dic = {};
 
+String.prototype.trimLeft = function() {
+	return this.replace(/^[w]+/g, '');
+};
+
+String.prototype.trim = function() {
+	var url = this.trimLeft();
+	return url.replace(/^\./g, '');
+};
+
 function select(selector) {
 	return document.querySelector(selector);
+}
+
+function deserialize(object) {
+	return typeof object == 'string' ? JSON.parse(object) : object;
 }
 
 function removeCookie(cookie) {
@@ -11,6 +24,12 @@ function removeCookie(cookie) {
 		"url" : url,
 		"name" : cookie.name
 	});
+}
+
+function removeCookiesByList(cookieList) {
+  for (i = 0; i < cookieList.length ; i++) {
+    removeCookie(cookieList[i]);
+  }
 }
 
 function removeCookiesForDomain(domain) {
@@ -60,13 +79,18 @@ function getJsonNoMatterWhat(url, callback) {
 
 function onload() {
   startListening();
+	if (localStorage.length == 0) {
+		getJsonNoMatterWhat("../data/blackList.json", function(blackList) {
+			localStorage.blacklist = JSON.stringify(blackList);
+		});
+	}
 	chrome.cookies.getAll({}, function(cookies) {
     select("#total_count").innerText = cookies.length;
 
     var dataSet = [];
     for(i = 0; i < cookies.length ; i++) {
       var cookie = cookies[i];
-      var domain = cookie.domain;
+      var domain = cookie.domain.trim();
       var name = cookie.name;
       var temp = [];
       temp.push(cookie.domain);
@@ -95,16 +119,45 @@ function onload() {
             { title: "Secure" },
             { title: "Host Only" }
         ]
-    } );
+    });
+
+		var blacklist = deserialize(localStorage.blacklist) || {};
+
+		var trackers_count = 0;
+		for (i = 0; i < blacklist[0]["data"].length; i++) {
+			var dm = blacklist[0]["data"][i];
+			if (domain_dic[dm]) {
+				trackers_count = trackers_count + domain_dic[dm].length;
+			}
+		}
+		select("#blacklist_trackers_count").innerText = trackers_count;
+
+		var ads_count = 0;
+		var ads_cookies_list = [];
+		for(i = 0; i < cookies.length ; i++) {
+      var dm = cookies[i].domain;
+			if (dm.indexOf("ads.") !== -1) {
+				ads_count = ads_count + 1;
+				ads_cookies_list.push(cookies[i]);
+			};
+		}
+		select("#blacklist_ads_count").innerText = ads_count;
+
+		var google_count = 0;
+		for (i = 0; i < blacklist[2]["data"].length; i++) {
+			var name = blacklist[2]["data"][i];
+			if (name_dic[name]) {
+				google_count = google_count + name_dic[name].length;
+			}
+		}
+		select("#blacklist_google_count").innerText = google_count;
+
+		select("#blacklist_total_count").innerText = trackers_count + ads_count + google_count;
 	});
 }
 
 function reloadPage() {
   location.reload();
-}
-
-function test() {
-  removeCookieForDomainAndForName('.a.scorecardresearch.com', 'CP16');
 }
 
 function pressDomainButton() {
@@ -141,7 +194,6 @@ function pressDomainNameButton() {
 
 document.addEventListener('DOMContentLoaded', function() {
 	onload();
-  document.querySelector('#clean').addEventListener('click', test);
   document.querySelector('#domain_button').addEventListener('click', pressDomainButton);
   document.querySelector('#name_button').addEventListener('click', pressNameButton);
   document.querySelector('#domain_name_button').addEventListener('click', pressDomainNameButton);
