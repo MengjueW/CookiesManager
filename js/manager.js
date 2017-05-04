@@ -1,5 +1,6 @@
 var domain_dic = {};
 var name_dic = {};
+var cookies_in_your_browser = [];
 
 String.prototype.trimLeft = function() {
 	return this.replace(/^[w]+/g, '');
@@ -37,7 +38,19 @@ function removeCookiesForDomain(domain) {
     for (i = 0; i < domain_dic[domain].length ; i++) {
       removeCookie(domain_dic[domain][i]);
     }
-  }
+  } else {
+		for (i = 0; i < cookies_in_your_browser.length; i++) {
+			if (cookies_in_your_browser[i].domain == domain) {
+				removeCookie(cookies_in_your_browser[i]);
+			}
+		}
+	}
+}
+
+function removeAllCookies() {
+	for (i = 0; i < cookies_in_your_browser.length; i++) {
+		removeCookie(cookies_in_your_browser[i]);
+	}
 }
 
 function removeCookiesForName(name) {
@@ -77,6 +90,48 @@ function getJsonNoMatterWhat(url, callback) {
 	});
 }
 
+function createDataTable(cookies) {
+	var dataSet = [];
+	for(i = 0; i < cookies.length ; i++) {
+		var cookie = cookies[i];
+		var domain = cookie.domain.trim();
+		var name = cookie.name;
+		var temp = [];
+		temp.push(cookie.domain);
+		temp.push(cookie.name);
+		temp.push(cookie.secure);
+		temp.push(cookie.hostOnly)
+		dataSet.push(temp);
+	}
+		$('#your_cookies_list').DataTable( {
+				data: dataSet,
+				columns: [
+						{ title: "Domain" },
+						{ title: "Name" },
+						{ title: "Secure" },
+						{ title: "Host Only" }
+				]
+		});
+}
+
+function getData(cookies) {
+	for(i = 0; i < cookies.length ; i++) {
+		var cookie = cookies[i];
+		var domain = cookie.domain.trim();
+		var name = cookie.name;
+		cookies_in_your_browser.push(cookie);
+		if (!domain_dic[domain]) {
+			domain_dic[domain] = [];
+		}
+		domain_dic[domain].push(cookie);
+
+		if (!name_dic[name]) {
+			name_dic[name] = [];
+		}
+		name_dic[name].push(cookie);
+	}
+}
+
 function onload() {
   startListening();
 	if (localStorage.length == 0) {
@@ -85,41 +140,12 @@ function onload() {
 		});
 	}
 	chrome.cookies.getAll({}, function(cookies) {
+		createDataTable(cookies);
+		getData(cookies);
+
     select("#total_count").innerText = cookies.length;
-
-    var dataSet = [];
-    for(i = 0; i < cookies.length ; i++) {
-      var cookie = cookies[i];
-      var domain = cookie.domain.trim();
-      var name = cookie.name;
-      var temp = [];
-      temp.push(cookie.domain);
-      temp.push(cookie.name);
-      temp.push(cookie.secure);
-      temp.push(cookie.hostOnly)
-      dataSet.push(temp);
-
-      if (!domain_dic[domain]) {
-  			domain_dic[domain] = [];
-  		}
-  		domain_dic[domain].push(cookie);
-
-      if (!name_dic[name]) {
-        name_dic[name] = [];
-      }
-      name_dic[name].push(cookie);
-    }
     select("#domain_count").innerText = Object.keys(domain_dic).length;
     select("#name_count").innerText = Object.keys(name_dic).length;
-    $('#your_cookies_list').DataTable( {
-        data: dataSet,
-        columns: [
-            { title: "Domain" },
-            { title: "Name" },
-            { title: "Secure" },
-            { title: "Host Only" }
-        ]
-    });
 
 		var blacklist = deserialize(localStorage.blacklist) || {};
 
