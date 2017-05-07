@@ -1,5 +1,4 @@
 # CookiesManager
-==============
 
 A Cookie Blacklist Manager for Chrome that helps protect your privacy.
 
