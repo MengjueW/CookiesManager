@@ -1,6 +1,7 @@
 var domain_dic = {};
 var name_dic = {};
 var cookies_in_your_browser = [];
+var black_list = [];
 
 String.prototype.trimLeft = function() {
 	return this.replace(/^[w]+/g, '');
@@ -132,6 +133,28 @@ function getData(cookies) {
 	}
 }
 
+function getNameContainsKeyList(key, cookies) {
+	var list = [];
+	for(i = 0; i < cookies.length ; i++) {
+		var name = cookies[i].name;
+		if (name.indexOf(key) !== -1) {
+			list.push(cookies[i]);
+		};
+	}
+	return list;
+}
+
+function getDomainContainsKeyList(key, cookies) {
+	var list = [];
+	for(i = 0; i < cookies.length ; i++) {
+		var dm = cookies[i].domain;
+		if (dm.indexOf(key) !== -1) {
+			list.push(cookies[i]);
+		};
+	}
+	return list;
+}
+
 function onload() {
   startListening();
 	if (localStorage.length == 0) {
@@ -150,35 +173,34 @@ function onload() {
 		var blacklist = deserialize(localStorage.blacklist) || {};
 
 		var trackers_count = 0;
+		var trackers_list = [];
 		for (i = 0; i < blacklist[0]["data"].length; i++) {
 			var dm = blacklist[0]["data"][i];
 			if (domain_dic[dm]) {
 				trackers_count = trackers_count + domain_dic[dm].length;
+				trackers_list = trackers_list.concat(domain_dic[dm]);
 			}
 		}
 		select("#blacklist_trackers_count").innerText = trackers_count;
 
-		var ads_count = 0;
-		var ads_cookies_list = [];
-		for(i = 0; i < cookies.length ; i++) {
-      var dm = cookies[i].domain;
-			if (dm.indexOf("ads.") !== -1) {
-				ads_count = ads_count + 1;
-				ads_cookies_list.push(cookies[i]);
-			};
-		}
-		select("#blacklist_ads_count").innerText = ads_count;
+		var ads_cookies_list = getDomainContainsKeyList("ads.", cookies_in_your_browser);
+		select("#blacklist_ads_count").innerText = ads_cookies_list.length;
 
 		var google_count = 0;
+		var google_list = [];
 		for (i = 0; i < blacklist[2]["data"].length; i++) {
 			var name = blacklist[2]["data"][i];
 			if (name_dic[name]) {
 				google_count = google_count + name_dic[name].length;
+				google_list = google_list.concat(name_dic[name]);
 			}
 		}
 		select("#blacklist_google_count").innerText = google_count;
 
-		select("#blacklist_total_count").innerText = trackers_count + ads_count + google_count;
+		black_list = black_list.concat(trackers_list);
+		black_list = black_list.concat(ads_cookies_list);
+		black_list = black_list.concat(google_list);
+		select("#blacklist_total_count").innerText = black_list.length;
 	});
 }
 
@@ -196,7 +218,6 @@ function pressDomainButton() {
 
 function pressNameButton() {
   var name = select("#name_input").value;
-  console.log(name);
   if (name == "") {
     return;
   }
@@ -218,9 +239,14 @@ function pressDomainNameButton() {
   }
 }
 
+function pressBlacklistDeleteButton() {
+	removeCookiesByList(black_list);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 	onload();
   document.querySelector('#domain_button').addEventListener('click', pressDomainButton);
   document.querySelector('#name_button').addEventListener('click', pressNameButton);
   document.querySelector('#domain_name_button').addEventListener('click', pressDomainNameButton);
+	document.querySelector('#blacklist_delete_button').addEventListener('click', pressBlacklistDeleteButton);
 });

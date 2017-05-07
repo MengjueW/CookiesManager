@@ -27,12 +27,17 @@
       </section>
 
     	<section id="content">
-    		<h2>Our Cookies BlackList</h2>
+    		<h2>Our Cookies Blacklist</h2>
 				<div>
 					<br />
 	    		<p>( Here is the cookies blacklist we recommend you to delete. )</p>
 					<br />
-					You have <span id="blacklist_total_count"></span> cookies in your browser we recommend you to delete.<br /><br />
+					You have <span id="blacklist_total_count"></span> cookies in your browser we recommend you to delete.<br />
+					<button id="blacklist_delete_button">
+            Delete All Blacklist Cookies
+          </button>
+					<br />
+					<br />
 					<ul>
 						<li>You have <span id="blacklist_trackers_count"></span> cookies in your browser that from web trackers.</li>
 						<li>You have <span id="blacklist_ads_count"></span> cookies in your browser that use for advertisement with 'ads.' in domain.</li>
@@ -75,15 +80,32 @@
     	</section>
 
     	<aside id="sidebar">
-    		<h2>Create Your Own Blacklist</h2>
-    		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
-    		<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
-    		<p>Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+    		<h2>Set Reminder to Clean Your Cookies</h2>
+				<h4>Options</h4>
+			 <form id="options">
+				 <input type="checkbox" name="isActivated" checked>
+				 Display a cookie reminder notification every
+				 <select name="frequency">
+					 <option>1</option>
+					 <option>2</option>
+					 <option>3</option>
+					 <option>4</option>
+					 <option>5</option>
+					 <option>10</option>
+					 <option>15</option>
+					 <option>20</option>
+					 <option>25</option>
+					 <option>30</option>
+				 </select>
+				 Day(s).
+			 </form>
+			 	<br />
+    		<p>Use the checkbox to enable/unable the notification</p>
     	</aside>
 
     	<footer>
-    		<h4>Footer</h4>
-    		<p>Footer text</p>
+    		<!-- <h4>Footer</h4>
+    		<p>Footer text</p> -->
     	</footer>
 
     </div>
