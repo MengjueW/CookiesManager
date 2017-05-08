@@ -115,6 +115,26 @@ function createDataTable(cookies) {
 		});
 }
 
+function createDomainCookiesTable() {
+	var dataset = []
+	for (var key in domain_dic) {
+		if (domain_dic.hasOwnProperty(key) && domain_dic[key].length > 20) {
+				var temp = [];
+				temp.push(domain_dic[key].length);
+				temp.push(key);
+				dataset.push(temp);
+		}
+	}
+
+	$('#domain_cookies_list').DataTable( {
+			data: dataset,
+			columns: [
+					{ title: "Cookies count" },
+					{ title: "Domain" },
+			]
+	});
+}
+
 function getData(cookies) {
 	for(i = 0; i < cookies.length ; i++) {
 		var cookie = cookies[i];
@@ -192,6 +212,7 @@ function onload() {
 	chrome.cookies.getAll({}, function(cookies) {
 		createDataTable(cookies);
 		getData(cookies);
+		createDomainCookiesTable();
 
     select("#total_count").innerText = cookies.length;
     select("#domain_count").innerText = Object.keys(domain_dic).length;

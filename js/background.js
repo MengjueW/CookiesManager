@@ -62,7 +62,7 @@ if (window.Notification) {
       show();
       interval = 0;
     }
-  }, 60000 * 24);
+  }, 60000 * 60 * 24);
 }
 
 chrome.browserAction.onClicked.addListener(function(tab) {
