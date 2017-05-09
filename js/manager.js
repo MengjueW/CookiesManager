@@ -250,6 +250,10 @@ function onload() {
 		black_list = black_list.concat(google_list);
 		select("#blacklist_total_count").innerText = black_list.length;
 	});
+
+	var jsonPretty = JSON.stringify(JSON.parse(localStorage.blacklist),null,2);
+	select("#json_List").innerText = jsonPretty;
+	$("#json_List").hide();
 }
 
 function reloadPage() {
@@ -291,10 +295,14 @@ function pressBlacklistDeleteButton() {
 	removeCookiesByList(black_list);
 }
 
+function pressJsonButton() {
+    $("#json_List").toggle();
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 	onload();
   document.querySelector('#domain_button').addEventListener('click', pressDomainButton);
   document.querySelector('#name_button').addEventListener('click', pressNameButton);
   document.querySelector('#domain_name_button').addEventListener('click', pressDomainNameButton);
-	document.querySelector('#blacklist_delete_button').addEventListener('click', pressBlacklistDeleteButton);
+	document.querySelector('#json_info').addEventListener('click', pressJsonButton);
 });

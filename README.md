@@ -19,4 +19,4 @@ Reference
 
 1. List of tracking websites from <a href="https://github.com/disconnectme/chrollusion">chrollusion</a>
 2. <a href="https://datatables.net/">DataTable</a> used in this extension.
-3. <a href="https://developer.chrome.com/extensions/samples#search:notification">Notification</a>Notification  is supported by google.
+3. <a href="https://developer.chrome.com/extensions/samples#search:notification">Notification</a> is supported by google.
