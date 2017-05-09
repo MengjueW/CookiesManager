@@ -304,5 +304,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#domain_button').addEventListener('click', pressDomainButton);
   document.querySelector('#name_button').addEventListener('click', pressNameButton);
   document.querySelector('#domain_name_button').addEventListener('click', pressDomainNameButton);
+	document.querySelector('#blacklist_delete_button').addEventListener('click', pressBlacklistDeleteButton);
 	document.querySelector('#json_info').addEventListener('click', pressJsonButton);
 });
